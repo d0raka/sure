@@ -1,6 +1,19 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  RTL_LOCALES = %w[he ar fa].freeze
+  DIRECTIONAL_ICONS = %w[
+    chevron-left chevron-right chevron-first chevron-last
+    arrow-left arrow-right arrow-left-to-line arrow-right-to-line
+    panel-left panel-right
+  ].freeze
+  LRI = "\u2066"
+  PDI = "\u2069"
+
+  def rtl?
+    RTL_LOCALES.include?(I18n.locale.to_s)
+  end
+
   def product_name
     Rails.configuration.x.product_name
   end
@@ -37,14 +50,15 @@ module ApplicationHelper
     sizes = { xs: "w-3 h-3", sm: "w-4 h-4", md: "w-5 h-5", lg: "w-6 h-6", xl: "w-7 h-7", "2xl": "w-8 h-8" }
     colors = { default: "text-secondary", white: "text-inverse", success: "text-success", warning: "text-warning", destructive: "text-destructive", info: "text-info", current: "text-current" }
 
+    resolved_key = normalize_icon_key(key)
+    extra_classes = class_names(extra_classes, "rtl:-scale-x-100") if DIRECTIONAL_ICONS.include?(resolved_key)
+
     icon_classes = class_names(
       "shrink-0",
       sizes[size.to_sym],
       colors[color.to_sym],
       extra_classes
     )
-
-    resolved_key = normalize_icon_key(key)
 
     if custom
       inline_svg_tag("#{resolved_key}.svg", class: icon_classes, **opts)
@@ -171,7 +185,8 @@ module ApplicationHelper
   def format_money(number_or_money, options = {})
     return nil unless number_or_money
 
-    Money.new(number_or_money).format(options)
+    formatted = Money.new(number_or_money).format(options)
+    rtl? ? "#{LRI}#{formatted}#{PDI}" : formatted
   end
 
   # Format each native-currency total independently, preserving order and transfer exclusions.

@@ -174,7 +174,8 @@ module LanguagesHelper
     "nl",   # Dutch
     "hu",   # Hungarian
     "vi",   # Vietnamese
-    "uk"    # Ukrainian
+    "uk",   # Ukrainian
+    "he"    # Hebrew
   ].freeze
 
   COUNTRY_MAPPING = {

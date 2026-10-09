@@ -4,7 +4,8 @@
 <% theme = Current.user&.theme || "system" %>
 
 <html
-  lang="en"
+  lang="<%= I18n.locale %>"
+  dir="<%= rtl? ? "rtl" : "ltr" %>"
   data-theme="<%= theme %>"
   data-controller="theme viewport"
   data-theme-user-preference-value="<%= Current.user&.theme || "system" %>"
