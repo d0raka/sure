@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$root"
+
+env_file="$root/.env"
+
+if [[ -e "$env_file" ]]; then
+  echo "bin/setup-instance: .env already exists. Leaving it unchanged."
+  exit 0
+fi
+
+if ! command -v openssl >/dev/null 2>&1; then
+  echo "bin/setup-instance: openssl is required to generate secrets." >&2
+  exit 1
+fi
+
+umask 077
+secret_key_base="$(openssl rand -hex 64)"
+postgres_password="$(openssl rand -hex 32)"
+
+cat > "$env_file" <<EOF
+SELF_HOSTED=true
+ONBOARDING_STATE=open
+SECRET_KEY_BASE=${secret_key_base}
+POSTGRES_USER=kesef
+POSTGRES_PASSWORD=${postgres_password}
+POSTGRES_DB=kesef_production
+PRODUCT_NAME=כסף
+PORT=3000
+EOF
+
+echo "bin/setup-instance: wrote .env (git-ignored) with fresh secrets."
+echo "Next: docker compose up -d --build"
+echo "Then open http://localhost:3000 and create your account."

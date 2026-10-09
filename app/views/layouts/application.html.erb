@@ -58,7 +58,7 @@ end %>
       <% end %>
 
       <%= link_to home_path, class: "absolute left-1/2 -translate-x-1/2" do %>
-        <%= image_tag "logomark-color.svg", class: "w-9 h-9 mx-auto" %>
+        <%= render "shared/brand_mark", class_name: "text-lg" %>
       <% end %>
 
       <div class="flex items-center gap-1">
@@ -80,8 +80,8 @@ end %>
     <div class="hidden lg:block border-r border-divider">
       <nav class="h-full flex flex-col shrink-0 w-[84px] py-4">
         <div class="pl-2 mb-3">
-          <%= link_to home_path, class: "block" do %>
-            <%= image_tag "logomark-color.svg", class: "w-9 h-9 mx-auto" %>
+          <%= link_to home_path, class: "block text-center" do %>
+            <%= render "shared/brand_mark", class_name: "text-sm" %>
           <% end %>
         </div>
 

@@ -26,6 +26,45 @@ involved: [Discord](https://discord.gg/36ZGBsxYEK) • [Website](https://sure.am
 > This repository is a community fork of the now-abandoned Maybe Finance project. <br />
 > Learn more in their [final release](https://github.com/maybe-finance/maybe/releases/tag/v0.6.0) doc.
 
+## Run this fork on a Mac
+
+On a Mac with Docker Desktop, paste this and wait until the containers are healthy. Then open http://localhost:3000 and create your account.
+
+```sh
+git clone https://github.com/d0raka/sure kesef && cd kesef && bin/setup-instance && docker compose up -d --build
+```
+
+`bin/setup-instance` writes a git-ignored `.env` with `SECRET_KEY_BASE` and `POSTGRES_PASSWORD`. It does not overwrite an existing `.env`. Compose refuses to start if those values are missing.
+
+### Stop
+
+```sh
+docker compose down
+```
+
+Do not pass `-v`. That flag deletes the data volumes.
+
+### Upgrade
+
+```sh
+git pull
+docker compose up -d --build
+```
+
+Migrations run when the web container boots (`db:prepare` in `bin/docker-entrypoint`, only for `./bin/rails server`). The worker does not migrate.
+
+### Where the data lives
+
+Compose named volumes on this project:
+
+- `postgres-data` for Postgres
+- `redis-data` for Redis
+- `app-storage` for uploads under `/rails/storage`
+
+`docker volume ls` lists them. They survive `docker compose down`. The project prefix is the directory name, so a clone named `kesef` yields `kesef_postgres-data` and the others.
+
+The web port binds to `127.0.0.1:3000` unless you set `BIND_ADDR` and `PORT`.
+
 ## Backstory
 
 The [Maybe Finance](https://github.com/maybe-finance/maybe) (archived/abandoned repo) team spent most of 2021–2022 building a full-featured personal finance and wealth management app. It even included an “Ask an Advisor” feature that connected users with a real CFP/CFA — all included with your subscription.
