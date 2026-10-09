@@ -140,5 +140,5 @@ Go on Strategy A for these three screens. Full-app RTL stays hard (volume, chart
 | Transactions list | logical classes + `money_tag` + `config/locales/views/transactions/he.yml` |
 | Budget | logical classes + `money_tag` + `config/locales/views/budgets/he.yml` |
 | Chrome | application layout, `_htmldoc`, nav, insights badge; `config/locales/views/layout/he.yml` |
-| Helpers | `money_tag`; `format_money` plain; `he` format `%n\u00A0%u` |
+| Helpers | `money_tag` (`<bdi>` + LRM on `he` negatives); `format_money` plain; `he` format `%n\u00A0%u` |
 | Lever | `script/rtl_logical_classes` (erb class attrs only, no space-x swap) |
