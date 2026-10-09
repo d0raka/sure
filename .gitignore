@@ -75,7 +75,7 @@ dump.rdb
 # Ignore node related files
 node_modules
 
-compose.yml
+# Upstream ignored a local copy of compose.example.yml. This fork ships compose.yml.
 
 plaid_test_accounts/
 
