@@ -69,7 +69,7 @@
           </div>
         <% end %>
 
-        <div class="<%= has_over_budget ? "shrink-0 flex justify-end whitespace-nowrap" : "ml-auto" %>">
+        <div class="<%= has_over_budget ? "shrink-0 flex justify-end whitespace-nowrap" : "ms-auto" %>">
           <% if @budget.initialized? && @editable %>
             <%= render DS::Link.new(
               text: t("budgets.show.categories.edit"),

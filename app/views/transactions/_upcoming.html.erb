@@ -1,7 +1,7 @@
 <% if @projected_recurring.any? %>
   <div id="upcoming" class="flex flex-col bg-container rounded-xl shadow-border-xs px-3 py-4 lg:p-4 relative group">
     <div class="grid-cols-12 bg-container-inset rounded-xl px-5 py-3 text-xs uppercase font-medium text-secondary items-center mb-4 grid">
-      <div class="pl-0.5 col-span-8 flex items-center gap-4"><p><%= t("transactions.list.transaction") %></p></div>
+      <div class="ps-0.5 col-span-8 flex items-center gap-4"><p><%= t("transactions.list.transaction") %></p></div>
       <p class="col-span-2 md:block hidden"><%= t("transactions.search.filters.type") %></p>
       <p class="col-span-2 col-start-11 md:col-start-auto justify-self-end md:block"><%= t("transactions.show.amount") %></p>
     </div>

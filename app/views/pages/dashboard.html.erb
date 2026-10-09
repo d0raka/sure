@@ -171,7 +171,7 @@
             <% if section[:key] == "cashflow_sankey" && section[:locals][:sankey_data][:links].present? %>
               <button
                 type="button"
-                class="flex items-center justify-center w-6 h-6 rounded-md text-secondary hover:text-primary hover:bg-container-inset-hover transition-colors opacity-100 lg:opacity-0 lg:group-hover:opacity-100 ml-auto lg:ml-0"
+                class="flex items-center justify-center w-6 h-6 rounded-md text-secondary hover:text-primary hover:bg-container-inset-hover transition-colors opacity-100 lg:opacity-0 lg:group-hover:opacity-100 ms-auto lg:ms-0"
                 data-action="click->cashflow-expand#open"
                 aria-label="<%= t("global.expand") %>">
                 <%= icon("maximize-2", size: "sm", class: "!w-3.5 !h-3.5") %>
@@ -203,7 +203,7 @@
                   aria-label="<%= t("pages.dashboard.widget_size.label") %>">
                   <%= icon("sliders-horizontal", size: "sm", class: "!w-3.5 !h-3.5") %>
                 </summary>
-                <div class="absolute right-0 top-full mt-1.5 z-10 w-48 p-2.5 space-y-2.5 bg-surface rounded-xl shadow-border-xs border border-primary">
+                <div class="absolute end-0 top-full mt-1.5 z-10 w-48 p-2.5 space-y-2.5 bg-surface rounded-xl shadow-border-xs border border-primary">
                   <% if show_width %>
                     <div class="space-y-1.5">
                       <p class="flex items-center gap-1.5 text-xs font-medium text-secondary">

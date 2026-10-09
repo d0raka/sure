@@ -9,7 +9,7 @@
         </div>
 
         <p class="text-primary text-3xl font-medium privacy-sensitive">
-          <%= format_money(investment_statement.portfolio_value_money) %>
+          <%= money_tag(investment_statement.portfolio_value_money) %>
         </p>
 
         <% trend = investment_statement.unrealized_gains_trend %>
@@ -17,7 +17,7 @@
           <div class="flex items-center gap-2 text-sm">
             <span class="text-secondary"><%= t(".total_return") %>:</span>
             <span class="font-medium privacy-sensitive" style="color: <%= trend.color %>">
-              <%= format_money(Money.new(trend.value, Current.family.currency)) %>
+              <%= money_tag(Money.new(trend.value, Current.family.currency)) %>
               (<%= trend.percent_formatted %>)
             </span>
           </div>
@@ -32,10 +32,10 @@
         <table class="w-full">
           <thead class="bg-container-inset">
             <tr class="uppercase text-xs font-medium text-secondary">
-              <th class="px-4 py-2 text-left font-medium"><%= t(".holding") %></th>
-              <th class="px-4 py-2 text-right font-medium"><%= t(".weight") %></th>
-              <th class="px-4 py-2 text-right font-medium"><%= t(".value") %></th>
-              <th class="px-4 py-2 text-right font-medium"><%= t(".return") %></th>
+              <th class="px-4 py-2 text-start font-medium"><%= t(".holding") %></th>
+              <th class="px-4 py-2 text-end font-medium"><%= t(".weight") %></th>
+              <th class="px-4 py-2 text-end font-medium"><%= t(".value") %></th>
+              <th class="px-4 py-2 text-end font-medium"><%= t(".return") %></th>
             </tr>
           </thead>
           <tbody class="font-medium text-sm">
@@ -57,15 +57,15 @@
                   </div>
                 </td>
 
-                <td class="p-4 text-right text-secondary privacy-sensitive">
+                <td class="p-4 text-end text-secondary privacy-sensitive">
                   <%= number_to_percentage(holding.weight || 0, precision: 1) %>
                 </td>
 
-                <td class="p-4 text-right privacy-sensitive">
-                  <%= format_money(holding.amount_money) %>
+                <td class="p-4 text-end privacy-sensitive">
+                  <%= money_tag(holding.amount_money) %>
                 </td>
 
-                <td class="p-4 text-right">
+                <td class="p-4 text-end">
                   <% if holding.trend %>
                     <span class="privacy-sensitive" style="color: <%= holding.trend.color %>">
                       <%= holding.trend.percent_formatted %>
@@ -97,7 +97,7 @@
               </div>
               <div>
                 <p class="text-xs text-secondary"><%= t(".contributions") %></p>
-                <p class="font-medium text-primary privacy-sensitive"><%= format_money(totals.contributions) %></p>
+                <p class="font-medium text-primary privacy-sensitive"><%= money_tag(totals.contributions) %></p>
               </div>
             </div>
             <div class="flex items-center gap-2">
@@ -106,7 +106,7 @@
               </div>
               <div>
                 <p class="text-xs text-secondary"><%= t(".withdrawals") %></p>
-                <p class="font-medium text-primary privacy-sensitive"><%= format_money(totals.withdrawals) %></p>
+                <p class="font-medium text-primary privacy-sensitive"><%= money_tag(totals.withdrawals) %></p>
               </div>
             </div>
             <div class="flex items-center gap-2">

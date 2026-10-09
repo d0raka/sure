@@ -11,7 +11,7 @@
         </div>
 
         <div data-donut-chart-target="amount" class="mb-2 text-3xl font-medium privacy-sensitive whitespace-nowrap <%= budget.available_to_spend.negative? ? "text-destructive" : "text-primary" %>">
-          <%= format_money(budget.actual_spending_money) %>
+          <%= money_tag(budget.actual_spending_money) %>
         </div>
 
         <% if editable %>
@@ -28,7 +28,7 @@
         <% end %>
       <% else %>
         <div data-donut-chart-target="amount" class="text-subdued text-3xl mb-2 privacy-sensitive whitespace-nowrap">
-          <span><%= format_money Money.new(0, budget.currency || budget.family.currency) %></span>
+          <span><%= money_tag Money.new(0, budget.currency || budget.family.currency) %></span>
         </div>
 
         <% if editable %>
@@ -51,7 +51,7 @@
           </div>
 
           <p data-donut-chart-target="amount" class="text-3xl font-medium privacy-sensitive whitespace-nowrap <%= bc.available_to_spend.negative? ? "text-destructive" : "text-primary" %>">
-            <%= format_money(bc.actual_spending_money) %>
+            <%= money_tag(bc.actual_spending_money) %>
           </p>
 
           <% if editable %>
@@ -74,7 +74,7 @@
       <p class="text-sm text-secondary text-center mb-2"><%= t(".unused") %></p>
 
       <p data-donut-chart-target="amount" class="text-3xl font-medium text-primary privacy-sensitive whitespace-nowrap">
-        <%= format_money(budget.available_to_spend_money) %>
+        <%= money_tag(budget.available_to_spend_money) %>
       </p>
     </div>
   </div>

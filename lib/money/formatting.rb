@@ -42,7 +42,7 @@ module Money::Formatting
       locale_sym = (locale || I18n.locale || :en).to_sym
 
       if locale_sym == :he
-        return { delimiter: ",", separator: ".", format: "%u%n" }
+        return { delimiter: ",", separator: ".", format: "%n\u00A0%u" }
       end
 
       # French locale: uses non-breaking spaces (unique formatting)

@@ -7,8 +7,6 @@ module ApplicationHelper
     arrow-left arrow-right arrow-left-to-line arrow-right-to-line
     panel-left panel-right
   ].freeze
-  LRI = "\u2066"
-  PDI = "\u2069"
 
   def rtl?
     RTL_LOCALES.include?(I18n.locale.to_s)
@@ -185,8 +183,14 @@ module ApplicationHelper
   def format_money(number_or_money, options = {})
     return nil unless number_or_money
 
-    formatted = Money.new(number_or_money).format(options)
-    rtl? ? "#{LRI}#{formatted}#{PDI}" : formatted
+    Money.new(number_or_money).format(options)
+  end
+
+  def money_tag(number_or_money, options = {})
+    formatted = format_money(number_or_money, options)
+    return if formatted.nil?
+
+    tag.bdi(formatted)
   end
 
   # Format each native-currency total independently, preserving order and transfer exclusions.

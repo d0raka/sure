@@ -4,12 +4,16 @@
 # Convert physical Tailwind direction classes to logical properties, and
 # count remaining physical classes. Re-run against any path.
 #
+# Only edits quoted class attributes and class_names string args in .html.erb.
+# Does not rewrite .rb or .js. Does not rewrite space-x-* (Tailwind v4 already
+# uses logical margins for that utility).
+#
 #   ruby script/rtl_logical_classes convert PATH...
 #   ruby script/rtl_logical_classes census [PATH...]
 
 PHYSICAL = /
   (?<![\w-])
-  (?:(?:[a-z0-9.[\]/,-]+:)*)
+  (?:(?:[a-z0-9.\[\]\/,-]+:)*)
   (?:
       -?(?:m|p|scroll-m|scroll-p)[lr]-
     | -?(?:left|right)-
@@ -18,7 +22,6 @@ PHYSICAL = /
     | justify-(?:left|right)
     | border-[lr](?:-|\b)
     | rounded-(?:[tblr]|[tb][lr])(?:-|\b)
-    | space-x-
   )
 /x.freeze
 
@@ -56,11 +59,25 @@ ORDERED_SUBS = [
   [ /text-left/, "text-start" ],
   [ /text-right/, "text-end" ],
   [ /float-left/, "float-start" ],
-  [ /float-right/, "float-end" ],
-  [ /space-x-/, "gap-" ]
+  [ /float-right/, "float-end" ]
 ].freeze
 
-def convert_text(text)
+CLASS_ATTR = /
+  (
+    \bclass\s*=\s*["']
+    | \bclass:\s*["']
+  )
+  ([^"']*)
+  (["'])
+/x.freeze
+
+CLASS_NAMES_STRING = /
+  (class_names\([^)]*?["'])
+  ([^"']*)
+  (["'])
+/mx.freeze
+
+def convert_classes(text)
   text = text.gsub("--left-", "\u0000LEFTVAR\u0000")
   text = text.gsub("--right-", "\u0000RIGHTVAR\u0000")
 
@@ -83,13 +100,18 @@ def convert_text(text)
   text.gsub("\u0000RIGHTVAR\u0000", "--right-")
 end
 
+def convert_erb(source)
+  source.gsub(CLASS_ATTR) { "#{Regexp.last_match(1)}#{convert_classes(Regexp.last_match(2))}#{Regexp.last_match(3)}" }
+        .gsub(CLASS_NAMES_STRING) { "#{Regexp.last_match(1)}#{convert_classes(Regexp.last_match(2))}#{Regexp.last_match(3)}" }
+end
+
 def physical_matches(text)
   text.enum_for(:scan, PHYSICAL).map { Regexp.last_match[0] }
 end
 
 def files_from(paths)
-  paths.flat_map { |p| File.directory?(p) ? Dir.glob("#{p}/**/*.{erb,html,js,rb}") : Dir.glob(p) }
-       .select { |f| File.file?(f) }
+  paths.flat_map { |p| File.directory?(p) ? Dir.glob("#{p}/**/*.html.erb") : Dir.glob(p) }
+       .select { |f| File.file?(f) && f.end_with?(".html.erb") }
 end
 
 command = ARGV.shift
@@ -99,14 +121,14 @@ case command
 when "convert"
   files_from(ARGV).each do |path|
     original = File.read(path)
-    converted = convert_text(original)
+    converted = convert_erb(original)
     next if converted == original
 
     File.write(path, converted)
     puts "converted #{path}"
   end
 when "census"
-  paths = ARGV.empty? ? [ "app/views", "app/components", "app/javascript" ] : ARGV
+  paths = ARGV.empty? ? [ "app/views", "app/components" ] : ARGV
   total = 0
   files_from(paths).each do |path|
     matches = physical_matches(File.read(path))

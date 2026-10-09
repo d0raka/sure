@@ -1,0 +1,50 @@
+---
+he:
+  budgets:
+    switcher:
+      aria_label: "החלף תקציב"
+      household: "משק בית"
+    budget_donut:
+      spent: "הוצאה"
+      new_budget: "תקציב חדש"
+      of_budget: "מתוך %{amount}"
+      unused: "לא בשימוש"
+    budget_header:
+      today: "היום"
+    budget_nav:
+      categories: קטגוריות
+      setup: הגדרה
+    over_allocation_warning:
+      over_allocated_message: "חרגת מההקצאה. תקן את הסכומים."
+      fix_allocations: "תקן הקצאות"
+    actuals_summary:
+      income: "הכנסות"
+      expenses: "הוצאות"
+    budgeted_summary:
+      expected_income: "הכנסה צפויה"
+      budgeted: "בתקציב"
+      earned: "%{amount} התקבלו"
+      over: "%{amount} מעל"
+      left: "%{amount} נותרו"
+      spent: "%{amount} הוצאו"
+    show:
+      categories:
+        amount: סכום
+        edit: ערוך
+        title: קטגוריות
+      on_track_categories:
+        short_title: במסלול
+        title: במסלול
+      over_budget_categories:
+        short_title: חריגה
+        title: חריגה מהתקציב
+      filter:
+        all: הכל
+        aria_label: סנן קטגוריות תקציב
+        on_track: במסלול
+        over_budget: חריגה
+      tabs:
+        actual: בפועל
+        budgeted: בתקציב
+  budget_categories:
+    bills_reserved: "%{amount} שמורים לחשבונות"

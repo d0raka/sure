@@ -15,7 +15,7 @@
       <% else %>
         <%= render Goals::AvatarComponent.new(name: option[:label], size: "sm") %>
       <% end %>
-      <span class="ml-1.5"><%= option[:label] %></span>
+      <span class="ms-1.5"><%= option[:label] %></span>
     <% end %>
     <% sc.with_segment segment_content, active: option[:active], href: switch_path.call(option[:owner_param]) %>
   <% end %>

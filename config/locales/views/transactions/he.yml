@@ -1,0 +1,54 @@
+---
+he:
+  transactions:
+    selection_bar:
+      duplicate: שכפל
+      edit: ערוך
+      selected: נבחרו
+    form:
+      category_label: קטגוריה
+      tags_label: תגיות
+    show:
+      amount: סכום
+      tab_transactions: תנועות
+      tab_upcoming: קרובות
+    summary:
+      total_transactions: סה״כ תנועות
+      income: הכנסות
+      expenses: הוצאות
+      inflow: כניסות
+      outflow: יציאות
+    index:
+      title: תנועות
+      transaction: תנועה
+      transactions: תנועות
+      import: ייבוא
+      new_rule: כלל חדש
+      edit_rules: ערוך כללים
+      edit_categories: ערוך קטגוריות
+      edit_tags: ערוך תגיות
+      edit_merchants: ערוך בתי עסק
+      edit_imports: ערוך ייבואים
+      new_transaction: תנועה חדשה
+      categorize_button:
+        one: "סווג (1)"
+        other: "סווג (%{count})"
+    list:
+      drag_drop_title: גרור CSV לייבוא
+      drag_drop_subtitle: העלה תנועות ישירות
+      transaction: תנועה
+      transactions: תנועות
+    transaction:
+      pending: ממתין
+      pending_tooltip: תנועה ממתינה, עשויה להשתנות בפרסום
+    search:
+      filters:
+        account: חשבון
+        date: תאריך
+        type: סוג
+        status: סטטוס
+        amount: סכום
+        category: קטגוריה
+        tag: תגית
+        merchant: בית עסק
+        ai: בינה מלאכותית

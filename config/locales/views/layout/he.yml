@@ -1,0 +1,25 @@
+---
+he:
+  layouts:
+    application:
+      insights: תובנות
+      privacy_mode: מצב פרטיות
+      resize_left_sidebar: שנה את רוחב סרגל החשבונות
+      resize_right_sidebar: שנה את רוחב סרגל העוזר
+      skip_to_main: דלג לתוכן הראשי
+      release_highlight:
+        title: מה חדש
+        done: הבנתי
+      nav:
+        assistant: עוזר
+        bills: חשבונות
+        budgets: תקציב
+        home: בית
+        plan: תכנון
+        reports: דוחות
+        goals: יעדים
+        transactions: תנועות
+    trial:
+      open_demo: פתח הדגמה
+      data_deleted_in_days: הנתונים יימחקו בעוד %{days} ימים
+      contribute: תרמו

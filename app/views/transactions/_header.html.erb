@@ -3,7 +3,7 @@
   <div>
     <h3 class="font-medium flex items-center gap-2">
       <span class="text-2xl text-primary privacy-sensitive">
-        <%= format_money -entry.amount_money %>
+        <%= money_tag -entry.amount_money %>
       </span>
       <span class="text-lg text-secondary">
         <%= entry.currency %>

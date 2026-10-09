@@ -1,0 +1,107 @@
+---
+he:
+  pages:
+    dashboard:
+      welcome: "שלום, %{name}"
+      subtitle: "התמונה הכספית שלך במקום אחד"
+      new: "חדש"
+      sections_aria_label: "מקטעי לוח הבקרה"
+      drag_to_reorder: "גרור לשינוי סדר"
+      toggle_section: "הצג או הסתר מקטע"
+      customize:
+        start: "התאמה"
+        done: "סיום"
+        hide: "הסתר את %{title}"
+        hidden_title: "ווידג'טים מוסתרים"
+        hidden_description: "הוסף ווידג'ט בחזרה ללוח הבקרה."
+        none_hidden: "כל הווידג'טים מוצגים. הסתר אחד עם כפתור העין."
+        all_hidden_title: "כל הווידג'טים מוסתרים"
+        all_hidden_description: "התאם את לוח הבקרה כדי להחזיר ווידג'טים."
+      widget_size:
+        label: "שנה גודל"
+        width_label: "רוחב"
+        half: "חצי"
+        full: "מלא"
+        height_label: "גובה"
+        compact: "קומפקטי"
+        auto: "אוטומטי"
+        tall: "גבוה"
+      net_worth_chart:
+        data_not_available: אין נתונים לתקופה שנבחרה
+        title: שווי נקי
+      no_account_empty_state:
+        new_account: חשבון חדש
+        no_account_subtitle: אין חשבונות, ולכן אין מה להציג. הוסף חשבון ראשון.
+        no_account_title: עדיין אין חשבונות
+      balance_sheet:
+        title: "מאזן"
+        no_items: "אין עדיין %{name}"
+        add_accounts: "הוסף חשבונות %{name} לפירוט מלא"
+        no_asset: "אין עדיין נכסים"
+        no_liability: "אין עדיין התחייבויות"
+        add_asset_accounts: "הוסף חשבונות נכסים לפירוט מלא"
+        add_liability_accounts: "הוסף חשבונות התחייבויות לפירוט מלא"
+        name: "שם"
+        weight: "משקל"
+        value: "ערך"
+        expand_all: "הרחב הכל"
+        collapse_all: "כווץ הכל"
+        classifications:
+          asset: "נכסים"
+          liability: "התחייבויות"
+      insights_feed:
+        title: "תובנות"
+      cashflow_sankey:
+        loading: "טוען תזרים…"
+        load_error: "לא ניתן לטעון את התזרים. נסה שוב."
+        retry: "נסה שוב"
+        title: "תזרים"
+        zoom_out: "חזרה לתזרים המלא"
+        no_data_title: "אין נתוני תזרים לתקופה זו"
+        no_data_description: "הוסף תנועות או הרחב את התקופה"
+        add_transaction: "הוסף תנועה"
+      no_accounts:
+        title: "עדיין אין חשבונות"
+        description: "הוסף חשבונות כדי להציג שווי נקי"
+        add_account: "הוסף חשבון"
+      outflows_donut:
+        title: "הוצאות"
+        total_outflows: "סה״כ הוצאות"
+        categories: "קטגוריות"
+        value: "ערך"
+        weight: "משקל"
+      investment_summary:
+        title: "השקעות"
+        total_return: "תשואה כוללת"
+        holding: "נייר"
+        weight: "משקל"
+        value: "ערך"
+        return: "תשואה"
+        period_activity: "פעילות %{period}"
+        contributions: "הפקדות"
+        withdrawals: "משיכות"
+        trades: "עסקאות"
+        no_investments: "אין חשבונות השקעה"
+        add_investment: "הוסף חשבון השקעה למעקב אחרי התיק"
+      money_flow:
+        title: "הכנסות מול הוצאות"
+        date_range: "%{start_date} עד %{end_date}"
+        month_picker_aria_label: "בחר חודש"
+        filter_accounts: "סנן חשבונות (%{count})"
+        filter_accounts_all: "כל החשבונות"
+        period_scope_hint: "מציג את החודשים שבוחרים כאן, בנפרד מתקופת לוח הבקרה למעלה."
+        search_accounts: "חפש חשבונות"
+        apply: "החל"
+        balance: "יתרת תנועות"
+        chart_span: "%{count} חודשים אחרונים"
+        income: "הכנסות"
+        expenses: "הוצאות"
+      spending_trend:
+        title: "הוצאות"
+        date_range: "%{start_date} עד %{end_date}"
+        date_range_short: "%{start_date}–%{end_day}, %{year}"
+        date_range_short_single: "%{date}, %{year}"
+        month_picker_aria_label: "בחר חודש"
+        period_scope_hint: "מציג את החודש שבוחרים כאן, בנפרד מתקופת לוח הבקרה למעלה."
+        no_data: "אין נתוני הוצאות לחודש זה"
+        previous_comparison_days: "(1–%{end_day})"

@@ -96,6 +96,29 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "account_name_help_text", fragment.at("input[name='account[name]']")["aria-describedby"]
   end
 
+  test "#format_money returns plain text with no bidi marks in English or Hebrew" do
+    usd = Money.new(1234.5, :usd)
+
+    I18n.with_locale(:en) do
+      result = format_money(usd)
+      assert_equal "$1,234.50", result
+      refute_match(/[\u2066\u2067\u2068\u2069\u200f]/, result)
+    end
+
+    I18n.with_locale(:he) do
+      result = format_money(usd)
+      refute_match(/[\u2066\u2067\u2068\u2069\u200f]/, result)
+      refute_includes result, "<bdi>"
+    end
+  end
+
+  test "#money_tag wraps the formatted amount in bdi" do
+    html = money_tag(Money.new(1234.5, :usd))
+    fragment = Nokogiri::HTML.fragment(html.to_s)
+    assert_equal "bdi", fragment.child.name
+    assert_equal "$1,234.50", fragment.child.text
+  end
+
   test "#totals_by_currency(collection: collection, money_method: money_method)" do
     assert_equal "$3.00", totals_by_currency(collection: [ @account1, @account2 ], money_method: :balance_money)
     assert_equal "$3.00 | -€7.00", totals_by_currency(collection: [ @account1, @account2, @account3 ], money_method: :balance_money)

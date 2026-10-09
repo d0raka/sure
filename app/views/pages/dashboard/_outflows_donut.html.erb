@@ -22,7 +22,7 @@
               </div>
 
               <div data-donut-chart-target="amount" class="text-3xl font-medium text-primary privacy-sensitive whitespace-nowrap">
-                <%= format_money Money.new(outflows_data[:total], outflows_data[:currency]) %>
+                <%= money_tag Money.new(outflows_data[:total], outflows_data[:currency]) %>
               </div>
             </div>
 
@@ -49,7 +49,7 @@
           <div class="w-16 @2xl:w-40">
             <p><%= t("pages.dashboard.outflows_donut.categories") %><span class="text-subdued mx-1">&middot;</span><%= outflows_data[:categories].count %></p>
           </div>
-          <div class="ml-auto text-right flex items-center gap-6">
+          <div class="ms-auto text-end flex items-center gap-6">
             <div class="w-16 @2xl:w-40">
               <p><%= t("pages.dashboard.outflows_donut.value") %></p>
             </div>
@@ -83,8 +83,8 @@
                 </div>
                 <span class="text-sm font-medium text-primary truncate"><%= category[:name] %></span>
               </div>
-              <div class="flex items-center gap-4 flex-shrink-0 text-right">
-                <span class="text-sm font-medium text-primary whitespace-nowrap privacy-sensitive"><%= format_money Money.new(category[:amount], category[:currency]) %></span>
+              <div class="flex items-center gap-4 flex-shrink-0 text-end">
+                <span class="text-sm font-medium text-primary whitespace-nowrap privacy-sensitive"><%= money_tag Money.new(category[:amount], category[:currency]) %></span>
                 <span class="text-sm text-secondary whitespace-nowrap w-10 @2xl:w-15 privacy-sensitive"><%= category[:percentage] %>%</span>
               </div>
             <% end %>

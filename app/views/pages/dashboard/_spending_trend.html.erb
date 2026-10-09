@@ -53,9 +53,9 @@
       <div class="min-w-0">
         <p class="text-sm text-primary capitalize truncate"><%= I18n.l(data[:month], format: :month_year) %></p>
         <p class="flex flex-wrap items-baseline gap-x-2">
-          <span class="font-medium text-lg tabular-nums text-primary privacy-sensitive whitespace-nowrap"><%= format_money data[:current_total] %></span>
+          <span class="font-medium text-lg tabular-nums text-primary privacy-sensitive whitespace-nowrap"><%= money_tag data[:current_total] %></span>
           <span class="text-sm tabular-nums privacy-sensitive whitespace-nowrap <%= data[:delta].negative? ? "text-success" : (data[:delta].zero? ? "text-secondary" : "text-destructive") %>">
-            <%= format_money data[:delta] %>
+            <%= money_tag data[:delta] %>
           </span>
         </p>
       </div>
@@ -72,7 +72,7 @@
             <span class="text-xs"><%= t(".previous_comparison_days", end_day: previous_comparison_day) %></span>
           <% end %>
         </p>
-        <p class="font-medium text-lg tabular-nums text-secondary privacy-sensitive whitespace-nowrap"><%= format_money data[:previous_total] %></p>
+        <p class="font-medium text-lg tabular-nums text-secondary privacy-sensitive whitespace-nowrap"><%= money_tag data[:previous_total] %></p>
       </div>
     </div>
   </div>
