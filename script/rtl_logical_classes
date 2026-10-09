@@ -1,0 +1,143 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Convert physical Tailwind direction classes to logical properties, and
+# count remaining physical classes. Re-run against any path.
+#
+# Only edits quoted class attributes and class_names string args in .html.erb.
+# Does not rewrite .rb or .js. Does not rewrite space-x-* (Tailwind v4 already
+# uses logical margins for that utility).
+#
+#   ruby script/rtl_logical_classes convert PATH...
+#   ruby script/rtl_logical_classes census [PATH...]
+
+PHYSICAL = /
+  (?<![\w-])
+  (?:(?:[a-z0-9.\[\]\/,-]+:)*)
+  (?:
+      -?(?:m|p|scroll-m|scroll-p)[lr]-
+    | -?(?:left|right)-
+    | text-(?:left|right)
+    | float-(?:left|right)
+    | justify-(?:left|right)
+    | border-[lr](?:-|\b)
+    | rounded-(?:[tblr]|[tb][lr])(?:-|\b)
+  )
+/x.freeze
+
+CENTERING = %w[1/2 1/3 2/3 1/4 3/4].freeze
+
+ORDERED_SUBS = [
+  [ /rounded-tl-/, "rounded-ss-" ],
+  [ /rounded-tr-/, "rounded-se-" ],
+  [ /rounded-bl-/, "rounded-es-" ],
+  [ /rounded-br-/, "rounded-ee-" ],
+  [ /rounded-tl(?![\w-])/, "rounded-ss" ],
+  [ /rounded-tr(?![\w-])/, "rounded-se" ],
+  [ /rounded-bl(?![\w-])/, "rounded-es" ],
+  [ /rounded-br(?![\w-])/, "rounded-ee" ],
+  [ /rounded-l-/, "rounded-s-" ],
+  [ /rounded-r-/, "rounded-e-" ],
+  [ /rounded-l(?![\w-])/, "rounded-s" ],
+  [ /rounded-r(?![\w-])/, "rounded-e" ],
+  [ /border-l-/, "border-s-" ],
+  [ /border-r-/, "border-e-" ],
+  [ /border-l(?![\w-])/, "border-s" ],
+  [ /border-r(?![\w-])/, "border-e" ],
+  [ /scroll-ml-/, "scroll-ms-" ],
+  [ /scroll-mr-/, "scroll-me-" ],
+  [ /scroll-pl-/, "scroll-ps-" ],
+  [ /scroll-pr-/, "scroll-pe-" ],
+  [ /(?<![-\w])ml-/, "ms-" ],
+  [ /(?<![-\w])mr-/, "me-" ],
+  [ /(?<![-\w])pl-/, "ps-" ],
+  [ /(?<![-\w])pr-/, "pe-" ],
+  [ /(?<=-)ml-/, "ms-" ],
+  [ /(?<=-)mr-/, "me-" ],
+  [ /(?<=-)pl-/, "ps-" ],
+  [ /(?<=-)pr-/, "pe-" ],
+  [ /text-left/, "text-start" ],
+  [ /text-right/, "text-end" ],
+  [ /float-left/, "float-start" ],
+  [ /float-right/, "float-end" ]
+].freeze
+
+CLASS_ATTR = /
+  (
+    \bclass\s*=\s*["']
+    | \bclass:\s*["']
+  )
+  ([^"']*)
+  (["'])
+/x.freeze
+
+CLASS_NAMES_STRING = /
+  (class_names\([^)]*?["'])
+  ([^"']*)
+  (["'])
+/mx.freeze
+
+def convert_classes(text)
+  text = text.gsub("--left-", "\u0000LEFTVAR\u0000")
+  text = text.gsub("--right-", "\u0000RIGHTVAR\u0000")
+
+  ORDERED_SUBS.each { |pattern, replacement| text = text.gsub(pattern, replacement) }
+
+  text = text.gsub(/(?<![-\w])left-([^\s"'`]+)/) do
+    CENTERING.include?(Regexp.last_match(1)) ? "left-#{Regexp.last_match(1)}" : "start-#{Regexp.last_match(1)}"
+  end
+  text = text.gsub(/(?<![-\w])right-([^\s"'`]+)/) do
+    CENTERING.include?(Regexp.last_match(1)) ? "right-#{Regexp.last_match(1)}" : "end-#{Regexp.last_match(1)}"
+  end
+  text = text.gsub(/-left-([^\s"'`]+)/) do
+    CENTERING.include?(Regexp.last_match(1)) ? "-left-#{Regexp.last_match(1)}" : "-start-#{Regexp.last_match(1)}"
+  end
+  text = text.gsub(/-right-([^\s"'`]+)/) do
+    CENTERING.include?(Regexp.last_match(1)) ? "-right-#{Regexp.last_match(1)}" : "-end-#{Regexp.last_match(1)}"
+  end
+
+  text = text.gsub("\u0000LEFTVAR\u0000", "--left-")
+  text.gsub("\u0000RIGHTVAR\u0000", "--right-")
+end
+
+def convert_erb(source)
+  source.gsub(CLASS_ATTR) { "#{Regexp.last_match(1)}#{convert_classes(Regexp.last_match(2))}#{Regexp.last_match(3)}" }
+        .gsub(CLASS_NAMES_STRING) { "#{Regexp.last_match(1)}#{convert_classes(Regexp.last_match(2))}#{Regexp.last_match(3)}" }
+end
+
+def physical_matches(text)
+  text.enum_for(:scan, PHYSICAL).map { Regexp.last_match[0] }
+end
+
+def files_from(paths)
+  paths.flat_map { |p| File.directory?(p) ? Dir.glob("#{p}/**/*.html.erb") : Dir.glob(p) }
+       .select { |f| File.file?(f) && f.end_with?(".html.erb") }
+end
+
+command = ARGV.shift
+abort "usage: ruby script/rtl_logical_classes convert|census PATH..." if command.nil?
+
+case command
+when "convert"
+  files_from(ARGV).each do |path|
+    original = File.read(path)
+    converted = convert_erb(original)
+    next if converted == original
+
+    File.write(path, converted)
+    puts "converted #{path}"
+  end
+when "census"
+  paths = ARGV.empty? ? [ "app/views", "app/components" ] : ARGV
+  total = 0
+  files_from(paths).each do |path|
+    matches = physical_matches(File.read(path))
+    next if matches.empty?
+
+    total += matches.size
+    puts "#{path}: #{matches.size} (#{matches.first(8).join(", ")}#{matches.size > 8 ? ", ..." : ""})"
+  end
+  puts "TOTAL #{total}"
+else
+  abort "unknown command #{command}"
+end

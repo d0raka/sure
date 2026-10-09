@@ -24,21 +24,21 @@
     <div class="flex items-baseline justify-between gap-3">
       <dt class="text-sm text-secondary"><%= t(".available") %></dt>
       <dd class="text-sm text-primary tabular-nums privacy-sensitive">
-        <%= format_money budget.available_cash_money %>
+        <%= money_tag budget.available_cash_money %>
       </dd>
     </div>
 
     <div class="flex items-baseline justify-between gap-3 border-b border-subdued pb-2">
       <dt class="text-sm text-secondary"><%= t(".earmarked") %></dt>
       <dd class="text-sm text-secondary tabular-nums privacy-sensitive">
-        −<%= format_money budget.earmarked_for_goals_money %>
+        <%= money_tag(-budget.earmarked_for_goals_money) %>
       </dd>
     </div>
 
     <div class="flex items-baseline justify-between gap-3 -mx-2 px-2 py-2 rounded-lg bg-surface-inset">
       <dt class="text-sm font-medium text-primary"><%= t(".free") %></dt>
       <dd class="text-2xl font-medium text-primary tabular-nums privacy-sensitive">
-        <%= format_money budget.free_cash_money %>
+        <%= money_tag budget.free_cash_money %>
       </dd>
     </div>
   </dl>

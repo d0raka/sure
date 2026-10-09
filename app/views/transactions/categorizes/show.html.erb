@@ -29,7 +29,7 @@
       <p class="text-sm text-secondary">
         <%= t(".transaction_count", count: @group.entries.size) %>
         &middot;
-        <span class="privacy-sensitive"><%= format_money(@group.entries.sum { |e| e.amount_money.abs }) %></span>
+        <span class="privacy-sensitive"><%= money_tag(@group.entries.sum { |e| e.amount_money.abs }) %></span>
       </p>
     <% end %>
   </div>
@@ -102,12 +102,12 @@
           <div data-controller="list-filter" class="space-y-3">
             <%# Search field %>
             <div class="relative flex items-center bg-container border border-primary rounded-lg">
-              <%= icon("search", class: "absolute left-3 text-secondary") %>
+              <%= icon("search", class: "absolute start-3 text-secondary") %>
               <input type="text"
                      placeholder="<%= t(".filter_placeholder") %>"
                      autocomplete="off"
                      autofocus
-                     class="w-full pl-9 pr-3 py-2 text-sm bg-transparent border-none rounded-lg focus:outline-none focus:ring-0 placeholder:text-secondary"
+                     class="w-full ps-9 pe-3 py-2 text-sm bg-transparent border-none rounded-lg focus:outline-none focus:ring-0 placeholder:text-secondary"
                      data-list-filter-target="input"
                      data-categorize-target="filter"
                      data-action="input->list-filter#filter">

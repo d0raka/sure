@@ -21,7 +21,7 @@
       }
     ) %>
     <%# Remembered per browser; "auto" keeps d3-sankey's crossing-minimising layout. %>
-    <%= render DS::SegmentedControl.new(aria_label: t("pages.dashboard.cashflow_preview.sort_label"), class: "ml-auto") do |sc| %>
+    <%= render DS::SegmentedControl.new(aria_label: t("pages.dashboard.cashflow_preview.sort_label"), class: "ms-auto") do |sc| %>
       <% { "auto" => "sort_auto", "ascending" => "sort_ascending", "descending" => "sort_descending" }.each do |order, key| %>
         <% sc.with_segment(
              t("pages.dashboard.cashflow_preview.#{key}"),

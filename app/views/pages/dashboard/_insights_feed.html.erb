@@ -60,7 +60,7 @@
           </div>
 
           <% if (figure = insight_key_figure(insight)) %>
-            <div class="text-right shrink-0">
+            <div class="text-end shrink-0">
               <p class="text-sm font-medium whitespace-nowrap privacy-sensitive <%= insight_sentiment(insight) == :positive ? "text-success" : "text-primary" %>"><%= figure.first %></p>
               <p class="text-xs text-secondary whitespace-nowrap"><%= figure.last %></p>
             </div>

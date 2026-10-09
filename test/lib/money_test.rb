@@ -173,6 +173,11 @@ class MoneyTest < ActiveSupport::TestCase
     assert_equal "1 000,12 €", Money.new(1000.12, :eur).format(locale: :hu)
   end
 
+  test "formats Hebrew amounts as number, NBSP, then shekel" do
+    formatted = Money.new(1234.50, :ils).format(locale: :he)
+    assert_equal "1,234.50\u00A0₪", formatted
+  end
+
   test "all supported locales can format money without errors" do
     # Ensure all supported locales from LanguagesHelper::SUPPORTED_LOCALES work
     supported_locales = LanguagesHelper::SUPPORTED_LOCALES

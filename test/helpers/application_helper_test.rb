@@ -96,6 +96,63 @@ class ApplicationHelperTest < ActionView::TestCase
     assert_equal "account_name_help_text", fragment.at("input[name='account[name]']")["aria-describedby"]
   end
 
+  BIDI_MARKS = /[\u2066\u2067\u2068\u2069\u200e\u200f]/
+
+  test "#format_money returns plain text with no bidi marks in English or Hebrew" do
+    usd = Money.new(1234.5, :usd)
+    negative = Money.new(-1234.5, :ils)
+
+    I18n.with_locale(:en) do
+      result = format_money(usd)
+      assert_equal "$1,234.50", result
+      refute_match(BIDI_MARKS, result)
+      refute_match(BIDI_MARKS, format_money(negative))
+    end
+
+    I18n.with_locale(:he) do
+      result = format_money(usd)
+      refute_match(BIDI_MARKS, result)
+      refute_includes result, "<bdi>"
+      he_negative = format_money(negative)
+      assert_equal "-1,234.50\u00A0₪", he_negative
+      refute_match(BIDI_MARKS, he_negative)
+    end
+  end
+
+  test "#money_tag wraps the formatted amount in bdi" do
+    html = money_tag(Money.new(1234.5, :usd))
+    fragment = Nokogiri::HTML.fragment(html.to_s)
+    assert_equal "bdi", fragment.child.name
+    assert_equal "$1,234.50", fragment.child.text
+  end
+
+  test "#money_tag wraps a Hebrew amount in bdi without bidi marks on positives" do
+    I18n.with_locale(:he) do
+      html = money_tag(Money.new(1234.5, :ils))
+      fragment = Nokogiri::HTML.fragment(html.to_s)
+      assert_equal "bdi", fragment.child.name
+      assert_equal "1,234.50\u00A0₪", fragment.child.text
+      refute_match(BIDI_MARKS, fragment.child.text)
+    end
+  end
+
+  test "#money_tag keeps the minus inside the isolate in English and Hebrew" do
+    I18n.with_locale(:en) do
+      html = money_tag(Money.new(-1234.5, :usd))
+      fragment = Nokogiri::HTML.fragment(html.to_s)
+      assert_equal "bdi", fragment.child.name
+      assert_equal "-$1,234.50", fragment.child.text
+      refute_match(BIDI_MARKS, fragment.child.text)
+    end
+
+    I18n.with_locale(:he) do
+      html = money_tag(Money.new(-1234.5, :ils))
+      fragment = Nokogiri::HTML.fragment(html.to_s)
+      assert_equal "bdi", fragment.child.name
+      assert_equal "\u200E-1,234.50\u00A0₪", fragment.child.text
+    end
+  end
+
   test "#totals_by_currency(collection: collection, money_method: money_method)" do
     assert_equal "$3.00", totals_by_currency(collection: [ @account1, @account2 ], money_method: :balance_money)
     assert_equal "$3.00 | -€7.00", totals_by_currency(collection: [ @account1, @account2, @account3 ], money_method: :balance_money)

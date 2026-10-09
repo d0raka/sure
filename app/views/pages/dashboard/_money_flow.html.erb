@@ -109,7 +109,7 @@
       <div class="flex items-center justify-between text-sm">
         <span class="text-secondary"><%= t(".balance") %></span>
         <span class="font-medium text-lg tabular-nums privacy-sensitive <%= money_flow_data[:balance].negative? ? "text-destructive" : (money_flow_data[:balance].zero? ? "text-primary" : "text-success") %>">
-          <%= format_money money_flow_data[:balance] %>
+          <%= money_tag money_flow_data[:balance] %>
         </span>
       </div>
 
@@ -125,7 +125,7 @@
             off the scale the dashboard uses (sm for rows, lg for a total, 3xl
             for a hero) and left the amount larger than the label beside it. %>
         <span class="flex items-center gap-2">
-          <span class="text-sm font-medium tabular-nums text-success privacy-sensitive"><%= format_money money_flow_data[:income] %></span>
+          <span class="text-sm font-medium tabular-nums text-success privacy-sensitive"><%= money_tag money_flow_data[:income] %></span>
           <%= icon("chevron-right", size: "sm", class: "text-secondary group-hover:text-primary transition-colors") %>
         </span>
       <% end %>
@@ -138,7 +138,7 @@
           <%= t(".expenses") %>
         </span>
         <span class="flex items-center gap-2">
-          <span class="text-sm font-medium tabular-nums text-primary privacy-sensitive"><%= format_money money_flow_data[:expense] %></span>
+          <span class="text-sm font-medium tabular-nums text-primary privacy-sensitive"><%= money_tag money_flow_data[:expense] %></span>
           <%= icon("chevron-right", size: "sm", class: "text-secondary group-hover:text-primary transition-colors") %>
         </span>
       <% end %>
