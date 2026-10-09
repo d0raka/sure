@@ -31,7 +31,7 @@
     <div class="flex items-baseline justify-between gap-3 border-b border-subdued pb-2">
       <dt class="text-sm text-secondary"><%= t(".earmarked") %></dt>
       <dd class="text-sm text-secondary tabular-nums privacy-sensitive">
-        −<%= money_tag budget.earmarked_for_goals_money %>
+        <%= money_tag(-budget.earmarked_for_goals_money) %>
       </dd>
     </div>
 

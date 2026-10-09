@@ -180,6 +180,11 @@ module ApplicationHelper
     family_moniker_plural.downcase
   end
 
+  # U+200E LEFT-TO-RIGHT MARK. View-only: keeps the ASCII minus on the left of
+  # a Hebrew amount inside <bdi>. Never embed this in format_money — that
+  # string is reused in CSV, JSON, form values, and tests.
+  LRM = "\u200E"
+
   def format_money(number_or_money, options = {})
     return nil unless number_or_money
 
@@ -187,8 +192,14 @@ module ApplicationHelper
   end
 
   def money_tag(number_or_money, options = {})
-    formatted = format_money(number_or_money, options)
+    return if number_or_money.nil?
+
+    money = Money.new(number_or_money)
+    formatted = format_money(money, options)
     return if formatted.nil?
+
+    # CLDR 46 / he-IL: negative currency is LRM + '-' + number + NBSP + symbol.
+    formatted = "#{LRM}#{formatted}" if I18n.locale.to_s == "he" && money.negative?
 
     tag.bdi(formatted)
   end
